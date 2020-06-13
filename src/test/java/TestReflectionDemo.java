@@ -3,6 +3,7 @@ import model.Student;
 import org.junit.jupiter.api.Test;
 import service.ReflectionDemo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -64,6 +65,18 @@ public class TestReflectionDemo {
                         "sort", "spliterator", "stream", "subList", "toArray", "toString", "wait"
                 ), methodNames4),
                 () -> assertEquals(Collections.emptyList(), ReflectionDemo.getPublicMethodNames(null))
+        );
+    }
+    
+    
+    @Test
+    void testGetSuperNames() {
+        assertAll(
+                () -> assertEquals(Arrays.asList("java.util.AbstractList", "java.util.AbstractCollection", "java.lang.Object"),
+                        ReflectionDemo.getSuperNames(new ArrayList<>())),
+                () -> assertEquals(Arrays.asList("model.Human", "java.lang.Object"), ReflectionDemo.getSuperNames(student1)),
+                () -> assertEquals(Collections.singletonList("java.lang.Object"), ReflectionDemo.getSuperNames(human1)),
+                () -> assertEquals(Collections.emptyList(), ReflectionDemo.getSuperNames(new Object()))
         );
     }
 }

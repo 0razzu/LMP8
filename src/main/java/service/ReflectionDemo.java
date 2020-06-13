@@ -34,4 +34,20 @@ public class ReflectionDemo {
         
         return new ArrayList<>(methodNames);
     }
+    
+    
+    public static List<String> getSuperNames(Object object) {
+        List<String> superNames = new ArrayList<>();
+        
+        if (object != null) {
+            Class<?> c = object.getClass();
+            
+            while (c != Object.class) {
+                c = c.getSuperclass();
+                superNames.add(c.getCanonicalName());
+            }
+        }
+        
+        return superNames;
+    }
 }
