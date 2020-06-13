@@ -65,4 +65,26 @@ public class ReflectionDemo {
         
         return counter;
     }
+    
+    
+    public static List<String> getSetterGetterNames(Object object) {
+        List<String> names = new ArrayList<>();
+        
+        if (object != null) {
+            Method[] methods = object.getClass().getMethods();
+            
+            for (Method m: methods) {
+                int modifiers = m.getModifiers();
+                String name = m.getName();
+                
+                if (Modifier.isPublic(modifiers) && !Modifier.isStatic(modifiers) &&
+                        ((m.getParameterCount() == 0 && m.getReturnType() != void.class && name.startsWith("get")) ||
+                                (m.getParameterCount() == 1 && m.getReturnType() == void.class && name.startsWith("set"))))
+                    names.add(name);
+            }
+            
+        }
+        
+        return names;
+    }
 }

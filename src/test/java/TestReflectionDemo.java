@@ -105,4 +105,30 @@ public class TestReflectionDemo {
                 () -> assertArrayEquals(new int[3], arrayGenerator.getArray())
         );
     }
+    
+    
+    @Test
+    void testGetSetterGetterNames() {
+        List<String> names1 = ReflectionDemo.getSetterGetterNames(arrayGenerator);
+        List<String> names2 = ReflectionDemo.getSetterGetterNames(human1);
+        List<String> names3 = ReflectionDemo.getSetterGetterNames(student1);
+        
+        Collections.sort(names1);
+        Collections.sort(names2);
+        Collections.sort(names3);
+        
+        assertAll(
+                () -> assertEquals(Arrays.asList("getArray", "getClass", "getSize", "setSize"), names1),
+                () -> assertEquals(Arrays.asList(
+                        "getAge", "getClass", "getFirstName", "getPatronymicName", "getSecondName",
+                        "setAge", "setFirstName", "setPatronymicName", "setSecondName"
+                ), names2),
+                () -> assertEquals(Arrays.asList(
+                        "getAge", "getClass", "getDepartment", "getFirstName", "getPatronymicName", "getSecondName",
+                        "setAge", "setDepartment", "setFirstName", "setPatronymicName", "setSecondName"
+                ), names3),
+                () -> assertEquals(Arrays.asList("getBytes", "getClass"), ReflectionDemo.getSetterGetterNames("")),
+                () -> assertEquals(Collections.emptyList(), ReflectionDemo.getSetterGetterNames(null))
+        );
+    }
 }
