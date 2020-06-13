@@ -1,6 +1,7 @@
 package service;
 
 
+import iface.Executable;
 import model.Human;
 
 import java.lang.reflect.Method;
@@ -49,5 +50,19 @@ public class ReflectionDemo {
         }
         
         return superNames;
+    }
+    
+    
+    public static int executeExecutables(List<?> objects) {
+        int counter = 0;
+        
+        if (objects != null)
+            for (Object o: objects)
+                if (o instanceof Executable) {
+                    ((Executable) o).execute();
+                    counter++;
+                }
+        
+        return counter;
     }
 }

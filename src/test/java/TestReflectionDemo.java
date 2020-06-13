@@ -1,7 +1,10 @@
+import iface.Executable;
 import model.Human;
 import model.Student;
 import org.junit.jupiter.api.Test;
 import service.ReflectionDemo;
+import util.ArrayGenerator;
+import util.Increment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +19,9 @@ public class TestReflectionDemo {
     static final Human human2 = new Human("Александра", "Сергеевна", "Алексеева", 18);
     static final Student student1 = new Student("Joey", "Black", 22, "IT");
     static final Student student2 = new Student("Claire", "Windstorm", 20, "Chemistry");
+    static Executable executable = new Increment();
+    static Increment increment = new Increment();
+    static ArrayGenerator arrayGenerator = new ArrayGenerator(3);
     
     
     @Test
@@ -76,7 +82,27 @@ public class TestReflectionDemo {
                         ReflectionDemo.getSuperNames(new ArrayList<>())),
                 () -> assertEquals(Arrays.asList("model.Human", "java.lang.Object"), ReflectionDemo.getSuperNames(student1)),
                 () -> assertEquals(Collections.singletonList("java.lang.Object"), ReflectionDemo.getSuperNames(human1)),
-                () -> assertEquals(Collections.emptyList(), ReflectionDemo.getSuperNames(new Object()))
+                () -> assertEquals(Collections.emptyList(), ReflectionDemo.getSuperNames(new Object())),
+                () -> assertEquals(Collections.emptyList(), ReflectionDemo.getSuperNames(null))
+        );
+    }
+    
+    
+    @Test
+    void testExecuteExecutables() {
+        List<Object> list1 = Arrays.asList(executable, "word");
+        List<Object> list2 = Arrays.asList("", human1, executable, 8, increment, arrayGenerator, "?");
+        
+        assertAll(
+                () -> assertEquals(0, ReflectionDemo.executeExecutables(Collections.emptyList())),
+                () -> assertEquals(0, ReflectionDemo.executeExecutables(Arrays.asList("", human2, student1))),
+                () -> assertEquals(0, ReflectionDemo.executeExecutables(null)),
+                () -> assertEquals(1, ReflectionDemo.executeExecutables(list1)),
+                () -> assertEquals(1, ((Increment) executable).getValue()),
+                () -> assertEquals(3, ReflectionDemo.executeExecutables(list2)),
+                () -> assertEquals(2, ((Increment) executable).getValue()),
+                () -> assertEquals(1, increment.getValue()),
+                () -> assertArrayEquals(new int[3], arrayGenerator.getArray())
         );
     }
 }
