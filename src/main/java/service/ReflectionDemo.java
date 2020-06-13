@@ -3,7 +3,12 @@ package service;
 
 import model.Human;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class ReflectionDemo {
@@ -16,5 +21,17 @@ public class ReflectionDemo {
                     counter++;
         
         return counter;
+    }
+    
+    
+    public static List<String> getPublicMethodNames(Object object) {
+        Set<String> methodNames = new HashSet<>();
+        
+        if (object != null)
+            for (Method m: object.getClass().getMethods())
+                if (Modifier.isPublic(m.getModifiers()))
+                    methodNames.add(m.getName());
+        
+        return new ArrayList<>(methodNames);
     }
 }
