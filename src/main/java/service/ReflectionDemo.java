@@ -33,8 +33,8 @@ public class ReflectionDemo {
                 /* Филиппов А.В. 20.06.2020 Комментарий не удалять.
                  Бесполезная проверка. getMethods() возвращает только публичные методы )
                 */
-                if (Modifier.isPublic(m.getModifiers()))
-                    methodNames.add(m.getName());
+                // fixed
+                methodNames.add(m.getName());
         
         return new ArrayList<>(methodNames);
     }
