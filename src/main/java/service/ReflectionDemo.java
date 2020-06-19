@@ -30,6 +30,9 @@ public class ReflectionDemo {
         
         if (object != null)
             for (Method m: object.getClass().getMethods())
+                /* Филиппов А.В. 20.06.2020 Комментарий не удалять.
+                 Бесполезная проверка. getMethods() возвращает только публичные методы )
+                */
                 if (Modifier.isPublic(m.getModifiers()))
                     methodNames.add(m.getName());
         
